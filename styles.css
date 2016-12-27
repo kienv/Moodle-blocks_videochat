@@ -1,0 +1,198 @@
+#videochat-message  .vc-success{
+    padding: 7px;
+    border: 1px solid #50b9d6;
+    background: #c3effd;
+    border-radius: 5px;
+	margin-bottom: 5px;
+	position: relative;
+}
+
+#videochat-message  .vc-error {
+    padding: 7px;
+    border: 1px solid #dc6060;
+    background: #fbd6d6;
+    border-radius: 5px;
+	margin-bottom: 5px;
+	position: relative;
+}
+
+#videochat-message  .vc-error  .vc-close-message, #videochat-message  .vc-success  .vc-close-message {
+    display: block;
+    width: 18px;
+    height: 18px;
+    /* background-color: #8e8c8c; */
+    background-image: url(images/close.png);
+    background-size: 11px 10px;
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    /* border-radius: 9px;
+     border: 1px solid #ffffff; */
+    position: absolute;
+    top: -1px;
+    right: 0px;
+    /* box-shadow: 1px 2px 2px #333; */
+    cursor: pointer;
+}
+#videochat-call
+{
+	float: left;
+	width: 100%;
+	position: relative;
+}
+#videochat-call h4, #videochat-content h4{
+    font-size: 1.2em;
+    border-bottom: 1px solid #FFF;
+    padding-top: 6px;
+    float: left;
+    width: 100%;
+}
+#videochat-call .fromuser{
+    display: block;
+    width: 33%;
+    text-align: center;
+	float:left;
+	font-size: 11px;
+    font-weight: 600;
+}
+#videochat-call .ringingcall .touser{
+	width: 100%;
+}
+#videochat-call .comingcall .fromuser{
+	width: 100%;
+}
+#videochat-call .touser {
+    display: block;
+    width: 33%;
+    text-align: center;
+	float:right;
+	font-size: 11px;
+    font-weight: 600;
+}
+#videochat-call .fromuser  .profile-image  {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fdfdfd;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+	background-size: cover;
+	vertical-align: middle;
+    margin-right: 5px;
+}
+#videochat-call .touser  .profile-image {
+   display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fdfdfd;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+	background-size: cover;
+	vertical-align: middle;
+    margin-right: 5px;
+}
+#videochat-call .incall-middle {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fdfdfd;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+    background-color: #028605;
+    background-image: url(images/sync.png);
+	background-size: cover;
+	cursor: pointer;
+	position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    top: 50px;
+}
+#videochat-call .cv-active {
+    width: 35px;
+    margin-top: 7px;
+    margin-left: 3px;
+    opacity: 0.4;
+	display: flex;
+
+}
+#videochat-call .cv-action{
+    float: left;
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+#videochat-call .cv-hangup{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fdfdfd;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+    background-color: #ef2c0f;
+    background-image: url(images/phone_off.png);
+    background-size: cover;
+	cursor: pointer;
+	margin-top: 5px;
+}
+#videochat-call .cv-pickup{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fdfdfd;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+    background-color: #028605;
+    /* float: left; */
+    background-image: url(images/phone_on.png);
+    background-size: cover;
+	cursor: pointer;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+#videochat-content .info{
+	float: left;
+}
+#videochat-content .user {
+    font-size: 11px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-bottom: 1px solid #FFF;
+}
+#videochat-content .vc-ring{
+	display: block;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fdfdfd;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+    background-color: #028605;
+    float: left;
+    background-image: url(images/phone_on.png);
+    background-size: cover;
+    cursor: pointer;
+    margin-right: 5px;
+}
+#videochat-content  .userpicture {
+	width: 30px;
+    height: 30px;
+    border: 2px solid #FFF;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+}
+#videochat-content  .vc-mess {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fdfdfd;
+    border-radius: 25px;
+    box-shadow: 1px 1px 2px #333;
+    background-color: #028605;
+    float: left;
+    background-image: url(images/message.png);
+    background-size: cover;
+    cursor: pointer;
+    margin-right: 5px;
+}
+#videochat-content  .vc-fullname {
+    display: block;
+    font-weight: 600;
+}
