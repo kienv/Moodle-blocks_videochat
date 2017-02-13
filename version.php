@@ -23,3 +23,5 @@
 $plugin->component = 'block_videochat';
 $plugin->version = 2015070703;
 $plugin->requires = 2014101000;
+$plugin->release = '1.0 (2015070703)';
+$plugin->maturity = MATURITY_STABLE;
