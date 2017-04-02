@@ -36,3 +36,4 @@ $string['incall'] = 'In call';
 $string['comingcall'] = 'Coming call';
 $string['outgoingcall'] = 'Outgoing call';
 $string['youcurrentbusy'] = 'You need to hangup before making another call';
+$string['periodnminutes'] = 'last {$a} minutes';

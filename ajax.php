@@ -119,7 +119,7 @@ if (!has_capability('block/online_users:viewlist', $coursecontext)) {
     if (!$usercount = $DB->count_records_sql($csql, $params)) {
         $usercount = get_string('none');
     }
-    $html = '<div class="info">'.get_string('periodnminutes', 'block_online_users', $minutes).": $usercount</div>";
+    $html = '<div class="info">'.get_string('periodnminutes', 'block_videochat', $minutes).": $usercount</div>";
 
     return $this->content;
 }
@@ -140,7 +140,7 @@ if (count($users) < 50) {
 }
 
 $html = '<h4>'.get_string('activeuser', 'block_videochat').'</h4>';
-$html .= '<div class="info">('.get_string('periodnminutes', 'block_online_users', $minutes)."$usercount)</div>";
+$html .= '<div class="info">('.get_string('periodnminutes', 'block_videochat', $minutes)."$usercount)</div>";
 
 if (!empty($users)) {
     $html .= "<div id='call-status'></div><ul class='list'>\n";
