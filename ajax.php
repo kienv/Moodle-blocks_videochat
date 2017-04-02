@@ -119,11 +119,7 @@ if (!has_capability('block/online_users:viewlist', $coursecontext)) {
     if (!$usercount = $DB->count_records_sql($csql, $params)) {
         $usercount = get_string('none');
     }
-<<<<<<< HEAD
     $html = '<div class="info">'.get_string('periodnminutes', 'block_videochat', $minutes).": $usercount</div>";
-=======
-    $html = '<div class="info">'.get_string('periodnminutes', 'block_online_users', $minutes).": $usercount</div>";
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
 
     return $this->content;
 }
@@ -144,12 +140,8 @@ if (count($users) < 50) {
 }
 
 $html = '<h4>'.get_string('activeuser', 'block_videochat').'</h4>';
-<<<<<<< HEAD
-$html .= '<div class="info">('.get_string('periodnminutes', 'block_videochat', $minutes)."$usercount)</div>";
-=======
-$html .= '<div class="info">('.get_string('periodnminutes', 'block_online_users', $minutes)."$usercount)</div>";
 
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
+$html .= '<div class="info">('.get_string('periodnminutes', 'block_videochat', $minutes)."$usercount)</div>";
 
 if (!empty($users)) {
     $html .= "<div id='call-status'></div><ul class='list'>\n";
@@ -186,19 +178,14 @@ if (!empty($users)) {
     $html .= '<div class="info">'.get_string('none').'</div>';
 }
 
-<<<<<<< HEAD
 $action = optional_param('action', '', PARAM_ALPHANUM);
-=======
 
-$action = optional_param('action', '', PARAM_RAW);
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
 if ($action == 'ring') {
     $touserid = optional_param('touser', 0, PARAM_INT);
     if ($touserid == 0 || !in_array($touserid, $validusers)) {
         $mess = '<div class="vc-error"><span onclick="close_mess(this);" class="vc-close-message"></span>'.
             get_string('invaliduser', 'block_videochat').'</div>';
     } else {
-<<<<<<< HEAD
         if ($DB->record_exists_sql('SELECT * FROM {videochat}
                 WHERE (fromuser= :fromuser OR
                 touser= :touser) AND
@@ -217,31 +204,15 @@ if ($action == 'ring') {
                                                        'touser' => $USER->id,
                                                        'callstatusringing' => $callstatus['ringing'],
                                                        'callstatusincall' => $callstatus['incall']))) {
-=======
-        if ($DB->record_exists_sql("SELECT * FROM {videochat}
-                WHERE (fromuser={$touserid} OR
-                touser={$touserid}) AND
-                (status={$callstatus['ringing']} OR status={$callstatus['incall']})")) {
-            $touser = $DB->get_record('user', array('id' => $touserid));
-            $mess = '<div class="vc-error"><span onclick="close_mess(this);" class="vc-close-message"></span>'.
-                get_string('currentbusy', 'block_videochat', fullname($touser)).'</div>';
-        } else if ($DB->record_exists_sql("SELECT * FROM {videochat}
-                                                WHERE (fromuser={$USER->id} OR touser={$USER->id}) AND
-                                                (status={$callstatus['ringing']} OR status={$callstatus['incall']})")) {
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
+
             $touser = $DB->get_record('user', array('id' => $touserid));
             $mess = '<div class="vc-error">
                         <span onclick="close_mess(this);" class="vc-close-message"></span>
                             '.get_string('youcurrentbusy', 'block_videochat').'
                      </div>';
         } else {
-<<<<<<< HEAD
             $sql = 'SELECT * FROM {videochat} WHERE fromuser= :fromuser AND touser= :touser ORDER BY updatedtime DESC LIMIT 1';
             $curcall = $DB->get_record_sql($sql, array('fromuser' => $USER->id, 'touser' => $touserid));
-=======
-            $sql = "SELECT * FROM {videochat} WHERE fromuser={$USER->id} AND touser={$touserid} ORDER BY 	updatedtime DESC LIMIT 1";
-            $curcall = $DB->get_record_sql($sql);
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
             if ($curcall) {
                 $curcall->status = $callstatus['ringing'];
                 $curcall->updatedtime = time();
@@ -264,7 +235,6 @@ if ($action == 'ring') {
                     '.get_string('invaliduser', 'block_videochat').'
                  </div>';
     } else {
-<<<<<<< HEAD
         if ($DB->record_exists_sql('SELECT * FROM {videochat}
                                         WHERE (fromuser= :fromuser AND touser <> :touser)
                                                 AND (status= :callstatusringing OR status= :callstatusincall)',
@@ -272,28 +242,16 @@ if ($action == 'ring') {
                                             'touser' => $USER->id,
                                             'callstatusringing' => $callstatus['ringing'],
                                             'callstatusincall' => $callstatus['incall']))) {
-=======
-        if ($DB->record_exists_sql("SELECT * FROM {videochat}
-                                        WHERE (fromuser={$fromuserid} AND touser <> {$USER->id})
-                                                AND (status={$callstatus['ringing']} OR status={$callstatus['incall']})")) {
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
             $touser = $DB->get_record('user', array('id' => $touserid));
             $mess = '<div class="vc-error">
                         <span onclick="close_mess(this);" class="vc-close-message"></span>
                         '.get_string('currentbusy', 'block_videochat', fullname($touser)).'
                      </div>';
         } else {
-<<<<<<< HEAD
             $sql = 'SELECT * FROM {videochat}
                              WHERE fromuser= :fromuser AND touser= :touser
                              ORDER BY updatedtime DESC LIMIT 1';
             $curcall = $DB->get_record_sql($sql, array('fromuser' => $fromuserid, 'touser' => $USER->id));
-=======
-            $sql = "SELECT * FROM {videochat}
-                             WHERE fromuser={$fromuserid} AND touser={$USER->id}
-                             ORDER BY updatedtime DESC LIMIT 1";
-            $curcall = $DB->get_record_sql($sql);
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
             if ($curcall) {
                 $curcall->status = $callstatus['incall'];
                 $curcall->room = uniqid();
@@ -309,11 +267,7 @@ if ($action == 'ring') {
     }
 } else if ($action == 'hangup') {
     if (!$DB->delete_records_select('videochat', "fromuser={$USER->id} OR touser = {$USER->id}")) {
-<<<<<<< HEAD
         $mess = '<div class="vc-error">
-=======
-         $mess = '<div class="vc-error">
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
                     <span onclick="close_mess(this);" class="vc-close-message"></span>
                     '.get_string('errorhangup', 'block_videochat').'
                   </div>';
@@ -323,17 +277,11 @@ if ($action == 'ring') {
 $incallhtml = '';
 $status = 0;
 $room = '';
-<<<<<<< HEAD
 $sql = 'SELECT * FROM {videochat} WHERE (fromuser= :fromuser OR touser= :touser) AND status= :callstatusincall';
 
 $incalls = $DB->get_records_sql($sql, array('fromuser' => $USER->id,
                                             'touser' => $USER->id,
                                             'callstatusincall' => $callstatus['incall']));
-=======
-$sql = "SELECT * FROM {videochat} WHERE (fromuser={$USER->id} OR touser={$USER->id}) AND status={$callstatus['incall']}";
-
-$incalls = $DB->get_records_sql($sql);
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
 if ($incalls) {
     $incallhtml .= '<h4>'.get_string('incall', 'block_videochat').'</h4>';
     foreach ($incalls as $call) {
@@ -371,13 +319,9 @@ if ($incalls) {
 }
 
 $comingcallhtml = '';
-<<<<<<< HEAD
 $sql = 'SELECT * FROM {videochat} WHERE touser= :touser AND status= :callstatusringing';
 $comingcalls = $DB->get_records_sql($sql, array('touser' => $USER->id, 'callstatusringing' => $callstatus['ringing']));
-=======
-$sql = "SELECT * FROM {videochat} WHERE (touser={$USER->id}) AND status={$callstatus['ringing']}";
-$comingcalls = $DB->get_records_sql($sql);
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
+
 if ($comingcalls) {
     $comingcallhtml .= '<h4>'.get_string('comingcall', 'block_videochat').'</h4>';
     foreach ($comingcalls as $call) {
@@ -405,15 +349,10 @@ if ($comingcalls) {
     }
 }
 $ringingcallhtml = '';
-<<<<<<< HEAD
 $sql = 'SELECT * FROM {videochat} WHERE fromuser= :fromuser AND status= :callstatusringing';
 
 $ringingcalls = $DB->get_records_sql($sql, array('fromuser' => $USER->id, 'callstatusringing' => $callstatus['ringing']));
-=======
-$sql = "SELECT * FROM {videochat} WHERE (fromuser={$USER->id}) AND status={$callstatus['ringing']}";
 
-$ringingcalls = $DB->get_records_sql($sql);
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
 if ($ringingcalls) {
     $ringingcallhtml .= '<h4>'.get_string('outgoingcall', 'block_videochat').'</h4>';
     foreach ($ringingcalls as $call) {

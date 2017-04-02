@@ -21,10 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $plugin->component = 'block_videochat';
-$plugin->version = 2015070703;
+$plugin->version = 2017040221;
 $plugin->requires = 2014101000;
-<<<<<<< HEAD
-=======
-$plugin->release = '1.0 (2015070703)';
+$plugin->release = '1.1 (2017040221)';
 $plugin->maturity = MATURITY_STABLE;
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4

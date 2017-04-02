@@ -25,11 +25,7 @@ $string['videochat'] = 'Video chat';
 $string['videochat:addinstance'] = 'Add a new video Chat block';
 $string['videochat:myaddinstance'] = 'Add a new video Chat block to the My Moodle page';
 $string['conferenceurl'] = 'Video conference URL';
-<<<<<<< HEAD
 $string['conferenceurldesc'] = 'Please choose a video conference provider.<br/>Please refer to each supported sites for term and condition.<br/><a href="https://openandtalk.com/" target="_blank">https://openandtalk.com/</a>.<br/><a href="https://appear.in/information/tos/" target="_blank">https://appear.in/information/tos/</a>';
-=======
-$string['conferenceurldesc'] = 'Please choose a video conference provider';
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
 $string['defaultactivetime'] = 'User active time';
 $string['defaultactivetimedesc'] = 'User active time in second to check if user is on-line/active';
 $string['activeuser'] = 'Active users';
@@ -40,7 +36,4 @@ $string['incall'] = 'In call';
 $string['comingcall'] = 'Coming call';
 $string['outgoingcall'] = 'Outgoing call';
 $string['youcurrentbusy'] = 'You need to hangup before making another call';
-<<<<<<< HEAD
 $string['periodnminutes'] = 'last {$a} minutes';
-=======
->>>>>>> 3f254dab90dd239929a805ece73caf7c25aaeba4
