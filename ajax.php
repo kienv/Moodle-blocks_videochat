@@ -142,7 +142,6 @@ if (count($users) < 50) {
 $html = '<h4>'.get_string('activeuser', 'block_videochat').'</h4>';
 $html .= '<div class="info">('.get_string('periodnminutes', 'block_online_users', $minutes)."$usercount)</div>";
 
-
 if (!empty($users)) {
     $html .= "<div id='call-status'></div><ul class='list'>\n";
     if (isloggedin() && has_capability('moodle/site:sendmessage', $coursecontext)
@@ -178,32 +177,39 @@ if (!empty($users)) {
     $html .= '<div class="info">'.get_string('none').'</div>';
 }
 
-
-$action = optional_param('action', '', PARAM_RAW);
+$action = optional_param('action', '', PARAM_ALPHANUM);
 if ($action == 'ring') {
     $touserid = optional_param('touser', 0, PARAM_INT);
     if ($touserid == 0 || !in_array($touserid, $validusers)) {
         $mess = '<div class="vc-error"><span onclick="close_mess(this);" class="vc-close-message"></span>'.
             get_string('invaliduser', 'block_videochat').'</div>';
     } else {
-        if ($DB->record_exists_sql("SELECT * FROM {videochat}
-                WHERE (fromuser={$touserid} OR
-                touser={$touserid}) AND
-                (status={$callstatus['ringing']} OR status={$callstatus['incall']})")) {
+        if ($DB->record_exists_sql('SELECT * FROM {videochat}
+                WHERE (fromuser= :fromuser OR
+                touser= :touser) AND
+                (status= :callstatusringing OR status= :callstatusincall)',
+                array('fromuser' => $touserid,
+                        'touser' => $touserid,
+                        'callstatusringing' => $callstatus['ringing'],
+                        'callstatusincall' => $callstatus['incall']))) {
             $touser = $DB->get_record('user', array('id' => $touserid));
             $mess = '<div class="vc-error"><span onclick="close_mess(this);" class="vc-close-message"></span>'.
                 get_string('currentbusy', 'block_videochat', fullname($touser)).'</div>';
-        } else if ($DB->record_exists_sql("SELECT * FROM {videochat}
-                                                WHERE (fromuser={$USER->id} OR touser={$USER->id}) AND
-                                                (status={$callstatus['ringing']} OR status={$callstatus['incall']})")) {
+        } else if ($DB->record_exists_sql('SELECT * FROM {videochat}
+                                                WHERE (fromuser= :fromuser OR touser= :touser) AND
+                                                (status= :callstatusringing OR status= :callstatusincall)',
+                                                 array('fromuser' => $USER->id,
+                                                       'touser' => $USER->id,
+                                                       'callstatusringing' => $callstatus['ringing'],
+                                                       'callstatusincall' => $callstatus['incall']))) {
             $touser = $DB->get_record('user', array('id' => $touserid));
             $mess = '<div class="vc-error">
                         <span onclick="close_mess(this);" class="vc-close-message"></span>
                             '.get_string('youcurrentbusy', 'block_videochat').'
                      </div>';
         } else {
-            $sql = "SELECT * FROM {videochat} WHERE fromuser={$USER->id} AND touser={$touserid} ORDER BY 	updatedtime DESC LIMIT 1";
-            $curcall = $DB->get_record_sql($sql);
+            $sql = 'SELECT * FROM {videochat} WHERE fromuser= :fromuser AND touser= :touser ORDER BY updatedtime DESC LIMIT 1';
+            $curcall = $DB->get_record_sql($sql, array('fromuser' => $USER->id, 'touser' => $touserid));
             if ($curcall) {
                 $curcall->status = $callstatus['ringing'];
                 $curcall->updatedtime = time();
@@ -226,19 +232,23 @@ if ($action == 'ring') {
                     '.get_string('invaliduser', 'block_videochat').'
                  </div>';
     } else {
-        if ($DB->record_exists_sql("SELECT * FROM {videochat}
-                                        WHERE (fromuser={$fromuserid} AND touser <> {$USER->id})
-                                                AND (status={$callstatus['ringing']} OR status={$callstatus['incall']})")) {
+        if ($DB->record_exists_sql('SELECT * FROM {videochat}
+                                        WHERE (fromuser= :fromuser AND touser <> :touser)
+                                                AND (status= :callstatusringing OR status= :callstatusincall)',
+                                    array('fromuser' => $fromuserid,
+                                            'touser' => $USER->id,
+                                            'callstatusringing' => $callstatus['ringing'],
+                                            'callstatusincall' => $callstatus['incall']))) {
             $touser = $DB->get_record('user', array('id' => $touserid));
             $mess = '<div class="vc-error">
                         <span onclick="close_mess(this);" class="vc-close-message"></span>
                         '.get_string('currentbusy', 'block_videochat', fullname($touser)).'
                      </div>';
         } else {
-            $sql = "SELECT * FROM {videochat}
-                             WHERE fromuser={$fromuserid} AND touser={$USER->id}
-                             ORDER BY updatedtime DESC LIMIT 1";
-            $curcall = $DB->get_record_sql($sql);
+            $sql = 'SELECT * FROM {videochat}
+                             WHERE fromuser= :fromuser AND touser= :touser
+                             ORDER BY updatedtime DESC LIMIT 1';
+            $curcall = $DB->get_record_sql($sql, array('fromuser' => $fromuserid, 'touser' => $USER->id));
             if ($curcall) {
                 $curcall->status = $callstatus['incall'];
                 $curcall->room = uniqid();
@@ -254,7 +264,7 @@ if ($action == 'ring') {
     }
 } else if ($action == 'hangup') {
     if (!$DB->delete_records_select('videochat', "fromuser={$USER->id} OR touser = {$USER->id}")) {
-         $mess = '<div class="vc-error">
+        $mess = '<div class="vc-error">
                     <span onclick="close_mess(this);" class="vc-close-message"></span>
                     '.get_string('errorhangup', 'block_videochat').'
                   </div>';
@@ -264,9 +274,11 @@ if ($action == 'ring') {
 $incallhtml = '';
 $status = 0;
 $room = '';
-$sql = "SELECT * FROM {videochat} WHERE (fromuser={$USER->id} OR touser={$USER->id}) AND status={$callstatus['incall']}";
+$sql = 'SELECT * FROM {videochat} WHERE (fromuser= :fromuser OR touser= :touser) AND status= :callstatusincall';
 
-$incalls = $DB->get_records_sql($sql);
+$incalls = $DB->get_records_sql($sql, array('fromuser' => $USER->id,
+                                            'touser' => $USER->id,
+                                            'callstatusincall' => $callstatus['incall']));
 if ($incalls) {
     $incallhtml .= '<h4>'.get_string('incall', 'block_videochat').'</h4>';
     foreach ($incalls as $call) {
@@ -304,8 +316,8 @@ if ($incalls) {
 }
 
 $comingcallhtml = '';
-$sql = "SELECT * FROM {videochat} WHERE (touser={$USER->id}) AND status={$callstatus['ringing']}";
-$comingcalls = $DB->get_records_sql($sql);
+$sql = 'SELECT * FROM {videochat} WHERE touser= :touser AND status= :callstatusringing';
+$comingcalls = $DB->get_records_sql($sql, array('touser' => $USER->id, 'callstatusringing' => $callstatus['ringing']));
 if ($comingcalls) {
     $comingcallhtml .= '<h4>'.get_string('comingcall', 'block_videochat').'</h4>';
     foreach ($comingcalls as $call) {
@@ -333,9 +345,9 @@ if ($comingcalls) {
     }
 }
 $ringingcallhtml = '';
-$sql = "SELECT * FROM {videochat} WHERE (fromuser={$USER->id}) AND status={$callstatus['ringing']}";
+$sql = 'SELECT * FROM {videochat} WHERE fromuser= :fromuser AND status= :callstatusringing';
 
-$ringingcalls = $DB->get_records_sql($sql);
+$ringingcalls = $DB->get_records_sql($sql, array('fromuser' => $USER->id, 'callstatusringing' => $callstatus['ringing']));
 if ($ringingcalls) {
     $ringingcallhtml .= '<h4>'.get_string('outgoingcall', 'block_videochat').'</h4>';
     foreach ($ringingcalls as $call) {
